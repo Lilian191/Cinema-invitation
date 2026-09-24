@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <title>Карина ханым 🎬</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#0b0b0e;color:#f7f7f8;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+    .wrap{max-width:520px;margin:0 auto;padding:22px 16px 40px}
+    .card{background:#15151a;border:1px solid #2a2a31;border-radius:24px;padding:24px;box-shadow:0 16px 45px rgba(0,0,0,.25)}
+    .screen{display:none;animation:in .28s ease}
+    .screen.active{display:block}
+    @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    h1,h2{margin:0 0 14px;line-height:1.15}
+    h1{font-size:32px} h2{font-size:27px}
+    p{color:#b9b9c2;font-size:17px;line-height:1.55;margin:0 0 22px}
+    .emoji{font-size:46px;margin-bottom:15px}
+    button{width:100%;border:1px solid #35353d;background:#202027;color:#fff;border-radius:16px;padding:15px 16px;font-size:17px;font-weight:650;margin-top:10px;cursor:pointer}
+    button.primary{background:#f2f2f3;color:#111;border-color:#f2f2f3}
+    button:active{transform:scale(.985)}
+    .choice{text-align:left}
+    .choice small{display:block;color:#aaaab4;font-size:14px;font-weight:500;margin-top:4px}
+    .summary{background:#202027;border-radius:17px;padding:16px;margin:20px 0}
+    .row{display:flex;justify-content:space-between;gap:18px;padding:7px 0}
+    .row span{color:#aaaab4}.row b{text-align:right}
+    .tiny{text-align:center;color:#777783;font-size:13px;margin-top:18px}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <div class="card">
+    <section id="s1" class="screen active">
+      <div class="emoji">🎬</div>
+      <h1>Карина ханым,<br>киноға барасыз ба?</h1>
+      <p>Небольшая премьера, надеюсь посмотрела хоть одну часть? 😂</p>
+      <button class="primary" onclick="go(2)">Барамын 😂</button>
+    </section>
+
+    <section id="s2" class="screen">
+      <h2>Когда пойдём? 👀</h2>
+      <button class="choice" onclick="pickDate('26 сентября')">26 сентября<small>Суббота</small></button>
+      <button class="choice" onclick="pickDate('27 сентября')">27 сентября<small>Воскресенье</small></button>
+      <button onclick="pickDate('26 или 27 сентября — оба подходят')">Мне без разницы, оба подойдут</button>
+    </section>
+
+    <section id="s3" class="screen">
+      <h2>Во сколько вы, девушка, свободна будете? 😂</h2>
+      <p>Укажите, пожалуйста 👇</p>
+      <button onclick="finish('До 18:00')">До 18:00</button>
+      <button onclick="finish('18:00–20:00')">18:00–20:00</button>
+      <button onclick="finish('После 20:00')">После 20:00</button>
+      <button onclick="finish('Пока не знаю')">Пока не знаю 😂</button>
+    </section>
+
+    <section id="s4" class="screen">
+      <div class="emoji">🤝</div>
+      <h2>Договорились</h2>
+      <p>Тогда остальное с меня 😂</p>
+      <div class="summary">
+        <div class="row"><span>Когда</span><b id="dateOut"></b></div>
+        <div class="row"><span>Примерно во сколько</span><b id="timeOut"></b></div>
+      </div>
+      <p style="text-align:center;margin-bottom:8px">До встречи в кино 🎬</p>
+      <button onclick="restart()">Если что, поменять выбор</button>
+    </section>
+  </div>
+  <div class="tiny">Для одного конкретного человека 🙂</div>
+</main>
+<script>
+let chosenDate = '';
+function go(n){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pickDate(d){ chosenDate=d; go(3); }
+function finish(t){
+  document.getElementById('dateOut').textContent=chosenDate;
+  document.getElementById('timeOut').textContent=t;
+  go(4);
+}
+function restart(){ chosenDate=''; go(2); }
+</script>
+</body>
+</html>
