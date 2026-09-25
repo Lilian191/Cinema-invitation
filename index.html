@@ -30,12 +30,21 @@
 <body>
 <main class="wrap">
   <div class="card">
-    <section id="s1" class="screen active">
-      <div class="emoji">🎬</div>
-      <h1>Карина ханым,<br>киноға барасыз ба?</h1>
-      <p>Небольшая премьера, надеюсь посмотрела хоть одну часть? 😂</p>
-      <button class="primary" onclick="go(2)">Барамын 😂</button>
-    </section>
+<section id="s1" class="screen active">
+  <div class="emoji">🎬</div>
+
+  <h1>Карина ханым,<br>киноға барасыз ба?</h1>
+
+  <p>Небольшая премьера, надеюсь посмотрела хоть одну часть? 😂</p>
+
+  <button id="yesButton" class="primary" onclick="go(2)">
+    Барамын 😂
+  </button>
+
+  <button id="noButton" onclick="tryToRefuse()">
+    Не пойду 🙄
+  </button>
+</section>
 
     <section id="s2" class="screen">
       <h2>Когда пойдём? 👀</h2>
@@ -82,6 +91,41 @@ function go(n){
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
+  let refuseCount = 0;
+
+const refuseTexts = [
+    "Действительно? 🤨",
+    "Вы хорошо подумали? 😂",
+    "Карина ханым... 👀",
+    "Вы настойчивая, однако 😂",
+    "Ладно, выбора не было 😂"
+];
+
+function tryToRefuse(){
+    const noButton = document.getElementById("noButton");
+    const yesButton = document.getElementById("yesButton");
+
+    if (refuseCount < refuseTexts.length) {
+        noButton.textContent = refuseTexts[refuseCount];
+        refuseCount++;
+    }
+
+    // После нескольких попыток кнопка согласия становится
+    // чуть заметнее — небольшой прикол :)
+    if (refuseCount === 3) {
+        yesButton.style.transform = "scale(1.08)";
+        yesButton.style.transition = "0.3s";
+    }
+
+    // После последней попытки "отказ" превращается в согласие
+    if (refuseCount === refuseTexts.length) {
+        setTimeout(() => {
+            noButton.textContent = "Ладно, барамын 🎬";
+            noButton.onclick = () => go(2);
+        }, 500);
+    }
+}
+  
 function pickDate(d){
   chosenDate = d;
   go(3);
